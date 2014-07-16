@@ -14,7 +14,12 @@ class User
 end
 
 class Apartment
+
+	attr_accessor :status
+	attr_accessor :price
+
 	@@apartments_hash = {}
+
 	def initialize(address, price, size = 1, city = "DC")
 		@address = address
 		@price = price
@@ -35,6 +40,15 @@ class Apartment
 	def self.print(file1, max_price = 2000)
 		File.open(file1, 'w') { |f| f.write(Apartment.under(max_price)) }
 	end
+
+	def bought
+		self.status = "Bought"
+	end
+
+	def rejected
+		self.status = "Rejected"
+		yield
+	end
 end
 
 ###### Procs ########
@@ -46,9 +60,15 @@ create_apartments = Proc.new { |x| Apartment.new("#{x} Street NW", x * 500) }
 
 ###### use_cases ########
 
-5.times(&create_users)
-User.show_users
+# 5.times(&create_users)
+# User.show_users
 
-5.times(&create_apartments)
-Apartment.under(2000)
-Apartment.print("new.txt")
+# 5.times(&create_apartments)
+# Apartment.under(2000)
+# Apartment.print("new.txt")
+
+apt = Apartment.new("123 Freedom Heights", 1650)
+apt.bought
+puts apt.status
+apt.rejected {  apt.price <= 2000 ?  apt.status = "Available" : nil }
+puts apt.status
