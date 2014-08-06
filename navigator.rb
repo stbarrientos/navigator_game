@@ -5,7 +5,8 @@ class World
 
 	attr_accessor :world_grid
 
-	def initialize(rows, cols)
+	def initialize(name, rows, cols)
+		@name = name
 		@rows = rows
 		@cols = cols
 		@world_grid = []
@@ -15,7 +16,7 @@ class World
 				@world_grid[x][y] = "."
 			end
 		end
-		return "done"
+		return self.show_world
 	end
 
 	def show_world
@@ -74,6 +75,15 @@ end
 # puts obi.obstruction_position
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
 
+
+puts "Enter worldname"
+worldname = gets.chomp
+puts "Enter rows"
+rows = gets.chomp.to_i
+puts "Enter column"
+cols = gets.chomp.to_i
+
+new_world = World.new(worldname, rows, cols)
 
 
 
