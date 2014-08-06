@@ -30,9 +30,20 @@ class World
 	end
 
 	def generate
-		Person.new(self,rand(@rows-1),rand(@cols-1))
 		(@rows*@cols/3).times { |x| obx = Obstruction.new(self,rand(@rows-1),rand(@cols-1)) }
 		Destination.new(self,rand(@rows-1),rand(@cols-1))
+
+		done = false
+		while done == false
+			x = rand(@rows-1)
+			y = rand(@rows-1)
+			if @world_grid[x][y] == "."
+				Person.new(self,rand(@rows-1),rand(@cols-1))
+				done = true
+			else
+				done = false
+			end
+		end
 		return self
 	end
 
@@ -84,8 +95,7 @@ puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.ne
 # cols = gets.chomp.to_i
 
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
-new_world = World.new(5,5).generate
-new_world.show_world
+new_world = World.new(5,5).generate.show_world
 
 new_world = World.new(worldname, rows, cols)
 
