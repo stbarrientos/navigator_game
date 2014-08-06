@@ -3,8 +3,8 @@ class World
 
 	attr_accessor :world_grid
 
-	def initialize(name, rows, cols)
-		@name = name
+	def initialize(rows, cols)
+		#@name = name
 		@rows = rows
 		@cols = cols
 		@world_grid = []
@@ -29,16 +29,16 @@ class World
 		@world_grid[row][col] = val
 	end
 
-	def generate
-		Person.new(self,rand(@rows-1),rand(@cols-1))
+	def generate		
 		(@rows*@cols/3).times { |x| obx = Obstruction.new(self,rand(@rows-1),rand(@cols-1)) }
 		Destination.new(self,rand(@rows-1),rand(@cols-1))
+		$tom = Person.new(self,rand(@rows-1),rand(@cols-1))
 		return self
 	end
-
 end
 
-class Person
+
+class Person < World
 
 	def initialize(world, row, col)
 		@world = world
@@ -47,9 +47,36 @@ class Person
 		@world.edit_world(@row,@col, "@")
 		@world.show_world
 	end
+
+	def move
+		count = 0
+		until @world_grid[@row][@col] == "*"
+			direction = rand(4)
+			case which_direction
+			when "0"
+				if @world_grid[@row - 1][(@col)] == "." || (@world_grid[(@row-1)][@col] == "*")
+					@row = @row - 1
+				end
+			when "1"
+				if @world_grid[@row][(@col + 1)] == "." || (@world_grid[@row][(@col + 1)] == "*")
+					@col = @col + 1
+				end
+			when "2"
+				if @world_grid[@row + 1][@col] == "." || (@world_grid[@row + 1][@col] == "*")
+					@row = @row + 1
+				end
+			when "3"
+				if @world_grid[@row][@col - 1] == "." || (@world_grid[@row][@col] == "*")
+					@col = @col - 1
+				end
+			end
+			count += 1
+		end
+		return count
+	end
 end
 
-class Destination
+class Destination < World
 
 	def initialize(world,row, col)
 		@world = world
@@ -59,7 +86,7 @@ class Destination
 	end
 end
 
-class Obstruction
+class Obstruction < World
 
 	attr_accessor :obstruction_position
 
@@ -71,6 +98,8 @@ class Obstruction
 		@obstruction_position = [@row,@col]
 	end
 end
+
+
 
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
 
@@ -87,7 +116,8 @@ puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.ne
 new_world = World.new(5,5).generate
 new_world.show_world
 
-new_world = World.new(worldname, rows, cols)
+$tom.move
+
 
 
 
