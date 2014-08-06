@@ -5,9 +5,10 @@ class World
 
 	attr_accessor :world_grid
 
-	def initialize(rows, cols)
-		@rows = rows
-		@cols = cols
+	def initialize(rows=10, cols=10)
+		@object_hash = {}
+		@tot_rows = rows
+		@tot_cols = cols
 		@world_grid = []
 		@world_grid = Array.new(@rows) { Array.new(@cols) }
 		@rows.times do |x|
@@ -72,8 +73,6 @@ end
 
 class Obstruction
 
-	attr_accessor :obstruction_position
-
 	def initialize(world, row, col)
 		@world = world
 		@row = row
@@ -89,10 +88,9 @@ end
 # dest = Destination.new(mine,1,0)
 # mine.show_world
 
-
-# puts obi.obstruction_position
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
-new_world = World.new(5,5).generate.show_world
+new_world = World.new.generate.show_world
+new_world.object_hash
 
 
 
