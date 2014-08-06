@@ -15,6 +15,7 @@ class World
 				@world_grid[x][y] = "."
 			end
 		end
+		return "done"
 	end
 
 	def show_world
@@ -22,32 +23,31 @@ class World
 			x.each { |y| print "#{y} " }
 			puts ""
 		end
+		return "done"
 	end
 
 	def edit_world(row, col, val)
 		@world_grid[row][col] = val
 	end
-
 end
 
 class Person
 
 	def initialize(world, row, col)
+		@world = world
 		@row = row
 		@col = col
-		world.edit_world(@row,@col, "@")
+		@world.edit_world(@row,@col, "@")
 	end
 end
 
 class Destination
 
-	@@destination_count
-	attr_accessor :destination_position
-
 	def initialize(world,row, col)
+		@world = world
 		@row = row
 		@col = col
-		world.edit_world(@row,@col, "*")
+		@world.edit_world(@row,@col, "*")
 	end
 end
 
@@ -56,21 +56,26 @@ class Obstruction
 	attr_accessor :obstruction_position
 
 	def initialize(world, row, col)
+		@world = world
 		@row = row
 		@col = col
-		world.edit_world(@row, @col, "!")
-		@obstruction_position = "#{@row},#{@col}"
-
+		@world.edit_world(@row, @col, "!")
+		@obstruction_position = [@row,@col]
 	end
 end
 
-def gps(world)
+# mine = World.new(4,5)
+# obi = Obstruction.new(mine,1,2)
+# me = Person.new(mine,1,4)
+# dest = Destination.new(mine,1,0)
+# mine.show_world
 
-end
 
-mine = World.new(4,5)
-obi = Obstruction.new(mine,1,2)
-me = Person.new(mine,1,4)
-dest = Destination.new(mine,1,0)
-mine.show_world
-puts obi.obstruction_position
+# puts obi.obstruction_position
+puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
+
+
+
+
+
+
