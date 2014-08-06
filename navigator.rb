@@ -1,5 +1,3 @@
-# World is a grid. A person wants to know how far it is from an object
-
 
 class World
 
@@ -16,7 +14,7 @@ class World
 				@world_grid[x][y] = "."
 			end
 		end
-		return "done"
+		return self.show_world
 	end
 
 	def show_world
@@ -48,20 +46,48 @@ class World
 		end
 		return self
 	end
-
 end
 
-class Person
+
+class Person < World
 
 	def initialize(world, row, col)
 		@world = world
 		@row = row
 		@col = col
 		@world.edit_world(@row,@col, "@")
+		@world.show_world
+	end
+
+	def move
+		count = 0
+		until @world_grid[@row][@col] == "*"
+			direction = rand(4)
+			case which_direction
+			when "0"
+				if @world_grid[@row - 1][(@col)] == "." || (@world_grid[(@row-1)][@col] == "*")
+					@row = @row - 1
+				end
+			when "1"
+				if @world_grid[@row][(@col + 1)] == "." || (@world_grid[@row][(@col + 1)] == "*")
+					@col = @col + 1
+				end
+			when "2"
+				if @world_grid[@row + 1][@col] == "." || (@world_grid[@row + 1][@col] == "*")
+					@row = @row + 1
+				end
+			when "3"
+				if @world_grid[@row][@col - 1] == "." || (@world_grid[@row][@col] == "*")
+					@col = @col - 1
+				end
+			end
+			count += 1
+		end
+		return count
 	end
 end
 
-class Destination
+class Destination < World
 
 	def initialize(world,row, col)
 		@world = world
@@ -71,7 +97,7 @@ class Destination
 	end
 end
 
-class Obstruction
+class Obstruction < World
 
 	def initialize(world, row, col)
 		@world = world
@@ -82,14 +108,11 @@ class Obstruction
 	end
 end
 
-# mine = World.new(4,5)
-# obi = Obstruction.new(mine,1,2)
-# me = Person.new(mine,1,4)
-# dest = Destination.new(mine,1,0)
-# mine.show_world
 
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
 new_world = World.new.generate.show_world
+
+$tom.move
 
 
 

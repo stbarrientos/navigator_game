@@ -1,0 +1,44 @@
+body {
+	background-color: #CCFFFF;
+}
+h1 {
+	color: white;
+}
+.header p {
+	color: red;
+}
+.navbar li {
+	display: inline;
+	font-size: 20px;
+	margin-right: 50px;
+}
+
+.navbar li:nth-child(3) {
+	margin-right: 0px;
+}
+.header {
+	text-align: center;
+	float: center;
+	background-color: #B2B2B2
+}
+.navbar {
+	background-color: black;
+	color: red;
+}
+ul {
+	text-align: center;
+}
+.content {
+	background-color: #B2B2B2;
+}
+a {
+	text-decoration: none;
+	color: red;
+}
+
+.container {
+	width: 80%;
+	margin: auto;
+	background-color: #B2B2B2;
+
+}
