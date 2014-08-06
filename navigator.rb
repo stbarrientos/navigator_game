@@ -90,7 +90,6 @@ end
 
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
 new_world = World.new.generate.show_world
-new_world.object_hash
 
 
 
