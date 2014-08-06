@@ -29,6 +29,14 @@ class World
 	def edit_world(row, col, val)
 		@world_grid[row][col] = val
 	end
+
+	def generate
+		Person.new(self,rand(@rows-1),rand(@cols-1))
+		(@rows*@cols/3).times { |x| obx = Obstruction.new(self,rand(@rows-1),rand(@cols-1)) }
+		Destination.new(self,rand(@rows-1),rand(@cols-1))
+		return self
+	end
+
 end
 
 class Person
@@ -73,6 +81,8 @@ end
 
 # puts obi.obstruction_position
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
+new_world = World.new(5,5).generate
+new_world.show_world
 
 
 
