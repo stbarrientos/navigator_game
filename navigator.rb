@@ -1,5 +1,3 @@
-# World is a grid. A person wants to know how far it is from an object
-
 
 class World
 
@@ -15,7 +13,7 @@ class World
 				@world_grid[x][y] = "."
 			end
 		end
-		return "done"
+		return self.show_world
 	end
 
 	def show_world
@@ -29,6 +27,11 @@ class World
 	def edit_world(row, col, val)
 		@world_grid[row][col] = val
 	end
+
+	def generate
+
+	end
+
 end
 
 class Person
@@ -38,6 +41,7 @@ class Person
 		@row = row
 		@col = col
 		@world.edit_world(@row,@col, "@")
+		@world.show_world
 	end
 end
 
@@ -64,14 +68,6 @@ class Obstruction
 	end
 end
 
-# mine = World.new(4,5)
-# obi = Obstruction.new(mine,1,2)
-# me = Person.new(mine,1,4)
-# dest = Destination.new(mine,1,0)
-# mine.show_world
-
-
-# puts obi.obstruction_position
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
 
 
