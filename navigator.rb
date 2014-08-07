@@ -42,7 +42,7 @@ class World
 				done = false
 			end
 		end
-		return self.show_world
+		# return self.show_world
 	end
 end
 
@@ -59,40 +59,94 @@ class Person < World
 
 	def move
 		count = 0
-		until self.world.world_grid[@row][@col] == "*"
-			direction = rand(4)
-			case direction
-			when "0"
+		done = false
+		puts "\nYou are '@', can you get to '*' in as few moves as possible? Lets find out!\n\n"
+		self.world.show_world
+		while done == false
+			puts "0=up, 1=right, 2=down, 3=left, 4=Surrender"
+			direction = gets.chomp.to_i
+			if direction == 0
+				count += 1
 				if self.world.world_grid[@row - 1][(@col)] == "." || (self.world.world_grid[(@row-1)][@col] == "*")
-					self.world.world_grid[@row][@col] = "x"
-					@row -= 1
-					self.world.world_grid[@row][@col] = "@"
+					if self.world.world_grid[@row-1][@col] == "*"
+						done = true
+						puts "\nYou Win!\nIt took you #{count} tries!"
+					else
+						self.world.world_grid[@row][@col] = "x"
+						@row -= 1
+						self.world.world_grid[@row][@col] = "@"
+						puts "\n"
+						self.world.show_world
+					end
+				else
+					puts "\n"
 					self.world.show_world
-
+					puts "can't go there"
+					done = false
 				end
-			when "1"
+			elsif direction == 1
+				count += 1
 				if self.world.world_grid[@row][(@col + 1)] == "." || (self.world.world_grid[@row][(@col + 1)] == "*")
-					self.world.world_grid[@row][@col] = "x"
-					@col += 1
-					self.world.world_grid[@row][@col] = "@"
+					if self.world.world_grid[@row][@col+1] == "*"
+						done = true
+						puts "\nYou Win!\nIt took you #{count} tries!"
+					else
+						self.world.world_grid[@row][@col] = "x"
+						@col += 1
+						self.world.world_grid[@row][@col] = "@"
+						puts "\n"
+						self.world.show_world
+					end
+				
+				else
+					puts "\n"
 					self.world.show_world
+					puts "can't go there"
 				end
-			when "2"
+			elsif direction == 2
+				count += 1 
 				if self.world.world_grid[@row + 1][@col] == "." || (self.world.world_grid[@row + 1][@col] == "*")
-					self.world.world_grid[@row][@col] = "x"
-					@row += 1
-					@world_grid[@row][@col] = "@"
+					if self.world.world_grid[@row+1][@col] == "*"
+						done = true
+						puts "\nYou Win!\nIt took you #{count} tries!"
+					else
+						self.world.world_grid[@row][@col] = "x"
+						@row += 1
+						self.world.world_grid[@row][@col] = "@"
+						puts "\n"
+						self.world.show_world
+					end
+				else
+					puts "\n"
 					self.world.show_world
+					puts "can't go there"
 				end
-			when "3"
-				if self.world.world_grid[@row][@col - 1] == "." || (self.world.world_grid[@row][@col] == "*")
-					self.world.world_grid[@row][@col] = "x"
-					@col -= 1
-					self.world.world_grid[@row][@col] = "@"
+			elsif direction == 3
+				count += 1
+				if self.world.world_grid[@row][@col - 1] == "." || (self.world.world_grid[@row][@col-1] == "*")
+					if self.world.world_grid[@row][@col-1] == "*"
+						done = true
+						puts "You Win!\nIt took you #{count} tries!"
+					else
+						self.world.world_grid[@row][@col] = "x"
+						@col -= 1
+						self.world.world_grid[@row][@col] = "@"
+						puts "\n"
+						self.world.show_world
+					end
+				else
+					puts "\n"
 					self.world.show_world
+					puts "can't go there"
 				end
+			elsif direction == 4
+				puts "Quiters never win and winners never quit. You Lose!"
+				done = true
+			else
+				done = false
+				self.world.show_world
+				puts "Invalid input, try again"
 			end
-			count += 1
 		end
 		return count
 	end
@@ -125,7 +179,7 @@ end
 # puts "Enter column"
 # cols = gets.chomp.to_i
 
-puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
+puts "\n<-------------<----<--<-WELCOME TO THE NAVIGATOR!->-->---->---------------->"
 new_world = World.new
 new_world.generate
 new_world.person.move
