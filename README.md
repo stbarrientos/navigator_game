@@ -1,3 +1,11 @@
 Hello world! This is my first addition!
 
 Alright guys so the navigator.rb file is the one I was talking about. It's gonna be hard to explain on here so just ask me in person. Thanks for helping out! This will be great git practice too.
+
+Projects Coming Up:
+
+Automated move method (have the computer solve the puzzle)
+
+Improve usability, ask the user if they want to create a custom board or generate a random one
+
+We are always open to suggestions!
