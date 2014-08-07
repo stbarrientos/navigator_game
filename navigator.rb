@@ -70,7 +70,7 @@ class Person < World
 				if self.world.world_grid[@row - 1][(@col)] == "." || (self.world.world_grid[(@row-1)][@col] == "*")
 					if self.world.world_grid[@row-1][@col] == "*"
 						done = true
-						puts "\nYou Win!\nIt took you #{count} tries!"
+						puts "\nYou Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@row -= 1
@@ -89,7 +89,7 @@ class Person < World
 				if self.world.world_grid[@row][(@col + 1)] == "." || (self.world.world_grid[@row][(@col + 1)] == "*")
 					if self.world.world_grid[@row][@col+1] == "*"
 						done = true
-						puts "\nYou Win!\nIt took you #{count} tries!"
+						puts "\nYou Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@col += 1
@@ -108,7 +108,7 @@ class Person < World
 				if self.world.world_grid[@row + 1][@col] == "." || (self.world.world_grid[@row + 1][@col] == "*")
 					if self.world.world_grid[@row+1][@col] == "*"
 						done = true
-						puts "\nYou Win!\nIt took you #{count} tries!"
+						puts "\nYou Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@row += 1
@@ -126,7 +126,7 @@ class Person < World
 				if self.world.world_grid[@row][@col - 1] == "." || (self.world.world_grid[@row][@col-1] == "*")
 					if self.world.world_grid[@row][@col-1] == "*"
 						done = true
-						puts "You Win!\nIt took you #{count} tries!"
+						puts "You Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@col -= 1
