@@ -2,19 +2,18 @@
 class World
 
 	attr_accessor :world_grid
+	attr_accessor :person
 
 	def initialize(rows=10, cols=10)
-		@object_hash = {}
 		@tot_rows = rows
 		@tot_cols = cols
 		@world_grid = []
-		@world_grid = Array.new(@rows) { Array.new(@cols) }
-		@rows.times do |x|
-			@cols.times do |y|
+		@world_grid = Array.new(@tot_rows) { Array.new(@tot_cols) }
+		@tot_rows.times do |x|
+			@tot_cols.times do |y|
 				@world_grid[x][y] = "."
 			end
 		end
-		return self.show_world
 	end
 
 	def show_world
@@ -22,7 +21,6 @@ class World
 			x.each { |y| print "#{y} " }
 			puts ""
 		end
-		return "done"
 	end
 
 	def edit_world(row, col, val)
@@ -30,55 +28,68 @@ class World
 	end
 
 	def generate
-		(@rows*@cols/3).times { |x| obx = Obstruction.new(self,rand(@rows-1),rand(@cols-1)) }
-		Destination.new(self,rand(@rows-1),rand(@cols-1))
+		(@tot_rows*@tot_cols/3).times { |x| ob_x = Obstruction.new(self,rand(@tot_rows-1),rand(@tot_cols-1)) }
+		Destination.new(self, rand(@tot_rows-1),rand(@tot_cols-1))
 
 		done = false
 		while done == false
-			x = rand(@rows-1)
-			y = rand(@rows-1)
+			x = rand(@tot_rows-1)
+			y = rand(@tot_rows-1)
 			if @world_grid[x][y] == "."
-				Person.new(self,rand(@rows-1),rand(@cols-1))
+				@person = Person.new(self,rand(@tot_rows-1),rand(@tot_cols-1))
 				done = true
 			else
 				done = false
 			end
 		end
-		return self
+		return self.show_world
 	end
 end
 
-
 class Person < World
+
+	attr_accessor :world
 
 	def initialize(world, row, col)
 		@world = world
 		@row = row
 		@col = col
 		@world.edit_world(@row,@col, "@")
-		@world.show_world
 	end
 
 	def move
 		count = 0
-		until @world_grid[@row][@col] == "*"
+		until self.world.world_grid[@row][@col] == "*"
 			direction = rand(4)
-			case which_direction
+			case direction
 			when "0"
-				if @world_grid[@row - 1][(@col)] == "." || (@world_grid[(@row-1)][@col] == "*")
-					@row = @row - 1
+				if self.world.world_grid[@row - 1][(@col)] == "." || (self.world.world_grid[(@row-1)][@col] == "*")
+					self.world.world_grid[@row][@col] = "x"
+					@row -= 1
+					self.world.world_grid[@row][@col] = "@"
+					self.world.show_world
+
 				end
 			when "1"
-				if @world_grid[@row][(@col + 1)] == "." || (@world_grid[@row][(@col + 1)] == "*")
-					@col = @col + 1
+				if self.world.world_grid[@row][(@col + 1)] == "." || (self.world.world_grid[@row][(@col + 1)] == "*")
+					self.world.world_grid[@row][@col] = "x"
+					@col += 1
+					self.world.world_grid[@row][@col] = "@"
+					self.world.show_world
 				end
 			when "2"
-				if @world_grid[@row + 1][@col] == "." || (@world_grid[@row + 1][@col] == "*")
-					@row = @row + 1
+				if self.world.world_grid[@row + 1][@col] == "." || (self.world.world_grid[@row + 1][@col] == "*")
+					self.world.world_grid[@row][@col] = "x"
+					@row += 1
+					@world_grid[@row][@col] = "@"
+					self.world.show_world
 				end
 			when "3"
-				if @world_grid[@row][@col - 1] == "." || (@world_grid[@row][@col] == "*")
-					@col = @col - 1
+				if self.world.world_grid[@row][@col - 1] == "." || (self.world.world_grid[@row][@col] == "*")
+					self.world.world_grid[@row][@col] = "x"
+					@col -= 1
+					self.world.world_grid[@row][@col] = "@"
+					self.world.show_world
 				end
 			end
 			count += 1
@@ -87,7 +98,7 @@ class Person < World
 	end
 end
 
-class Destination < World
+class Destination
 
 	def initialize(world,row, col)
 		@world = world
@@ -97,22 +108,26 @@ class Destination < World
 	end
 end
 
-class Obstruction < World
+class Obstruction
 
 	def initialize(world, row, col)
 		@world = world
 		@row = row
 		@col = col
 		@world.edit_world(@row, @col, "!")
-		@obstruction_position = [@row,@col]
 	end
 end
 
 
 puts "welcome to the navigator. Start with World.new, Obstruction.new, Person.new, and Destination.new. See your world with show world"
-new_world = World.new.generate.show_world
-
-$tom.move
+new_world = World.new
+new_world.generate
+new_world.person.move
+# new_world = World.new
+# me = Person.new(new_world,9,9)
+# ob1 = Obstruction.new(new_world,5,5)
+# goal = Destination.new(new_world,0,0)
+# new_world.show_world
 
 
 
