@@ -1,0 +1,5 @@
+pretty winning screen
+
+Different method for movement control
+
+Write file system to log username/password and highscores/worst attempts
