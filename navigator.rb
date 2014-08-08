@@ -63,9 +63,9 @@ class Person < World
 		puts "\nYou are '@', can you get to '*' in as few moves as possible? Lets find out!\n\n"
 		self.world.show_world
 		while done == false
-			puts "0=up, 1=right, 2=down, 3=left, 4=Surrender"
-			direction = gets.chomp.to_i
-			if direction == 0
+			puts "w=up, d=right, s=down, a=left, q=Surrender"
+			direction = gets.chomp
+			if direction == "w"
 				count += 1
 				if self.world.world_grid[@row - 1][(@col)] == "." || (self.world.world_grid[(@row-1)][@col] == "*")
 					if self.world.world_grid[@row-1][@col] == "*"
@@ -84,7 +84,7 @@ class Person < World
 					puts "can't go there"
 					done = false
 				end
-			elsif direction == 1
+			elsif direction == "d"
 				count += 1
 				if self.world.world_grid[@row][(@col + 1)] == "." || (self.world.world_grid[@row][(@col + 1)] == "*")
 					if self.world.world_grid[@row][@col+1] == "*"
@@ -103,7 +103,7 @@ class Person < World
 					self.world.show_world
 					puts "can't go there"
 				end
-			elsif direction == 2
+			elsif direction == "s"
 				count += 1 
 				if self.world.world_grid[@row + 1][@col] == "." || (self.world.world_grid[@row + 1][@col] == "*")
 					if self.world.world_grid[@row+1][@col] == "*"
@@ -121,7 +121,7 @@ class Person < World
 					self.world.show_world
 					puts "can't go there"
 				end
-			elsif direction == 3
+			elsif direction == "a"
 				count += 1
 				if self.world.world_grid[@row][@col - 1] == "." || (self.world.world_grid[@row][@col-1] == "*")
 					if self.world.world_grid[@row][@col-1] == "*"
@@ -139,7 +139,7 @@ class Person < World
 					self.world.show_world
 					puts "can't go there"
 				end
-			elsif direction == 4
+			elsif direction == "q"
 				puts "Quiters never win and winners never quit. You Lose!"
 				done = true
 			else
