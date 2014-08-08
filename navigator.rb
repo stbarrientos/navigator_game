@@ -1,4 +1,4 @@
-
+require './score_keeper_proto.rb'
 class World
 
 	attr_accessor :world_grid
@@ -188,7 +188,6 @@ new_world.person.move
 # ob1 = Obstruction.new(new_world,5,5)
 # goal = Destination.new(new_world,0,0)
 # new_world.show_world
-
 
 
 
