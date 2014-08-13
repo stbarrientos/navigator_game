@@ -64,13 +64,17 @@ class Person < World
 		self.world.show_world
 		while done == false
 			puts "w=up, d=right, s=down, a=left, q=Surrender"
-			direction = gets.chomp
-			if direction == "w"
+			# puts "user the arrows to navigate, press q to quit"
+			system("stty raw -echo")
+  			c = STDIN.getc
+			system("stty -raw echo")
+			# direction = gets.chomp
+			# if direction == "w"
+			if c == "w"
 				count += 1
 				if self.world.world_grid[@row - 1][(@col)] == "." || (self.world.world_grid[(@row-1)][@col] == "*")
 					if self.world.world_grid[@row-1][@col] == "*"
 						done = true
-						puts "\nYou Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@row -= 1
@@ -84,12 +88,12 @@ class Person < World
 					puts "can't go there"
 					done = false
 				end
-			elsif direction == "d"
+			# elsif direction == "d"
+			elsif c == "d"
 				count += 1
 				if self.world.world_grid[@row][(@col + 1)] == "." || (self.world.world_grid[@row][(@col + 1)] == "*")
 					if self.world.world_grid[@row][@col+1] == "*"
 						done = true
-						puts "\nYou Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@col += 1
@@ -103,12 +107,12 @@ class Person < World
 					self.world.show_world
 					puts "can't go there"
 				end
-			elsif direction == "s"
+			# elsif direction == "s"
+			elsif c == "s"
 				count += 1 
 				if self.world.world_grid[@row + 1][@col] == "." || (self.world.world_grid[@row + 1][@col] == "*")
 					if self.world.world_grid[@row+1][@col] == "*"
 						done = true
-						puts "\nYou Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@row += 1
@@ -121,12 +125,12 @@ class Person < World
 					self.world.show_world
 					puts "can't go there"
 				end
-			elsif direction == "a"
+			# elsif direction == "a"
+			elsif c == "a"
 				count += 1
 				if self.world.world_grid[@row][@col - 1] == "." || (self.world.world_grid[@row][@col-1] == "*")
 					if self.world.world_grid[@row][@col-1] == "*"
 						done = true
-						puts "You Win!\nIt took you #{count} moves!"
 					else
 						self.world.world_grid[@row][@col] = "x"
 						@col -= 1
@@ -139,7 +143,7 @@ class Person < World
 					self.world.show_world
 					puts "can't go there"
 				end
-			elsif direction == "q"
+			elsif c == "q"
 				puts "Quiters never win and winners never quit. You Lose!"
 				done = true
 			else
@@ -172,6 +176,45 @@ class Obstruction
 	end
 end
 
+def compare_score(filename,score)
+	# create_score_card_at(filename)
+	old_record = read_score_card_at(filename).to_i
+	if score < old_record
+		edit_score_card_at(filename,score)
+		puts "New High Score!!"
+	else
+		puts "You Win! It took you #{score} moves!\nYour personal record is #{old_record}"
+	end
+end
+
+# def read_char
+#   begin
+#     # save previous state of stty
+#     old_state = `stty -g`
+#     # disable echoing and enable raw (not having to press enter)
+#     system "stty raw -echo"
+#     c = STDIN.getc.chr
+#     # gather next two characters of special keys
+#     if(c=="\e")
+#       extra_thread = Thread.new{
+#         c = c + STDIN.getc.chr
+#         c = c + STDIN.getc.chr
+#       }
+#       # wait just long enough for special keys to get swallowed
+#       extra_thread.join(0.000000000000001)
+#       # kill thread so not-so-long special keys don't wait on getc
+#       extra_thread.kill
+#     end
+#   rescue => ex
+#     puts "#{ex.class}: #{ex.message}"
+#     puts ex.backtrace
+#   ensure
+#     # restore previous state of stty
+#     system "stty #{old_state}"
+#   end
+#   return c
+# end
+
 # puts "Enter worldname"
 # worldname = gets.chomp
 # puts "Enter rows"
@@ -182,13 +225,14 @@ end
 puts "\n<-------------<----<--<-WELCOME TO THE NAVIGATOR!->-->---->---------------->"
 new_world = World.new
 new_world.generate
-new_world.person.move
+score = new_world.person.move
+puts "score = #{score}"
+puts compare_score("score_card.txt",score)
 # new_world = World.new
 # me = Person.new(new_world,9,9)
 # ob1 = Obstruction.new(new_world,5,5)
 # goal = Destination.new(new_world,0,0)
 # new_world.show_world
-
 
 
 
